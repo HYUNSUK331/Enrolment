@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 using Excel = Microsoft.Office.Interop.Excel;   // Excel namespace 참조
 using System.Runtime.InteropServices;
+using Microsoft.Office.Interop.Excel;
 
 namespace Enrolment
 {
     class ExcelSave
     {
+        Array data;
         public void excelSave()
         {
             try
@@ -40,18 +42,25 @@ namespace Enrolment
 
                 // 범위 설정
 
-                Excel.Range cellRange = worksheet.get_Range("A1", "L161") as Excel.Range;
-
-
                 // 설정한 범위만큼 데이터 담기
+                //string[,] arr1 = new string[160, 10];
+                Excel.Range range = worksheet.UsedRange;    // 사용중인 셀 범위를 가져오기
+                Array data = range.Cells.Value2 as Array;
 
-                Array data = cellRange.Cells.Value2 as Array;
+                for (int i = 1; i <= range.Rows.Count; i++) // 가져온 행 만큼 반복
+                {
+                    Console.Write("\r\n");
+                    for (int j = 1; j <= range.Columns.Count; j++)  // 가져온 열 만큼 반복
+                    {
+                        Console.Write(data.GetValue(i, j) + " ");  // 셀 데이터 가져옴
+                        //arr1[i,j] = (string)data.GetValue(i, j);
 
-
-
-                // 데이터 출력
-
-                Console.WriteLine(data.GetValue(1,1));
+                    }
+                    Console.WriteLine();
+                }
+                Console.ReadLine();
+                
+                object arr = data.Clone();
 
                 ExcelApp.Workbooks.Close();
 
@@ -65,9 +74,7 @@ namespace Enrolment
                 Excel.Workbook workbookSaveTimbTable = excelappSaveTimbTable.Workbooks.Add(Type.Missing);
                 Excel.Worksheet excelWorksheetSaveTimbTable = (Excel.Worksheet)excelappSaveTimbTable.Worksheets.get_Item(1);  // 시트첫번째
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
                 excelWorksheetSaveTimbTable.Cells[1, 1] = "12323424";
-
                 Excel.Range cellRange = excelWorksheetSaveTimbTable.get_Range("A1", "F25") as Excel.Range;
                 cellRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                 excelWorksheetSaveTimbTable.Columns.EntireColumn.AutoFit();
