@@ -7,9 +7,9 @@ using static System.Console;
 
 namespace Enrolment.View
 {
-    class Loading
+    public static class Loading
     {
-        private void loading()
+        public static void loading()
         {
             Console.WriteLine("▒▒                 ▒▒▒             ▒▒         ▒▒▒▒       ▒▒▒▒▒▒    ▒▒▒       ▒▒       ▒▒▒▒");
             Console.WriteLine("▒▒               ▒▒  ▒▒          ▒▒▒        ▒▒  ▒▒         ▒▒        ▒▒▒▒     ▒▒     ▒▒▒▒▒▒");
