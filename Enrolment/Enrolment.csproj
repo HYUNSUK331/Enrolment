@@ -61,7 +61,6 @@
     <Compile Include="Model\MainData.cs" />
     <Compile Include="View\Classegistration\MainOne.cs" />
     <Compile Include="View\InterestedClass\MainTwo.cs" />
-    <Compile Include="View\Loding.cs" />
     <Compile Include="View\MainPage.cs" />
     <Compile Include="View\MyTimeTable\MyTimeTable.cs" />
     <Compile Include="View\Title.cs" />

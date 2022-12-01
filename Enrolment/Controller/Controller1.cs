@@ -25,7 +25,7 @@ public class Controller1
 
 
     // 수강신청한 목록을 담아둘 리스트 생성
-    public List<MainData> subDataList1 = new List<MainData>();
+    public static List<MainData> subDataList1 = new List<MainData>();
     // 관심 과목 추가한 목록을 담아둘 리스트 생성 
     public static List<MainData> subDataList2 = new List<MainData>();
 
@@ -33,8 +33,16 @@ public class Controller1
     // 엑셀 불러오고 데이터 저장 메서드 
     public static void excelSave()
     {
-
-        Excel.Application ExcelApp = new Excel.Application();
+        Console.WriteLine("▒▒                 ▒▒▒             ▒▒         ▒▒▒▒       ▒▒▒▒▒▒    ▒▒▒       ▒▒       ▒▒▒▒");
+        Console.WriteLine("▒▒               ▒▒  ▒▒          ▒▒▒        ▒▒  ▒▒         ▒▒        ▒▒▒▒     ▒▒     ▒▒▒▒▒▒");
+        Console.WriteLine("▒▒              ▒▒    ▒▒        ▒▒▒▒       ▒▒    ▒▒       ▒▒        ▒▒ ▒▒    ▒▒    ▒▒");
+        Console.WriteLine("▒▒             ▒▒      ▒▒      ▒▒  ▒▒      ▒▒     ▒▒      ▒▒        ▒▒  ▒▒   ▒▒   ▒▒                  ▒▒  ▒▒  ▒▒");
+        Console.WriteLine("▒▒             ▒▒      ▒▒     ▒▒    ▒▒     ▒▒     ▒▒      ▒▒        ▒▒   ▒▒  ▒▒   ▒▒   ▒▒▒▒▒     ▒▒  ▒▒  ▒▒");
+        Console.WriteLine("▒▒              ▒▒    ▒▒     ▒▒▒▒▒▒▒    ▒▒   ▒▒        ▒▒        ▒▒    ▒▒ ▒▒    ▒▒     ▒▒");
+        Console.WriteLine("▒▒▒▒▒▒▒     ▒▒  ▒▒     ▒▒        ▒▒   ▒▒  ▒▒         ▒▒        ▒▒     ▒▒▒▒     ▒▒▒▒▒▒");
+        Console.WriteLine("▒▒▒▒▒▒▒       ▒▒▒      ▒▒          ▒▒  ▒▒▒▒       ▒▒▒▒▒▒    ▒▒       ▒▒▒       ▒▒▒  ▒");
+    
+    Excel.Application ExcelApp = new Excel.Application();
 
         // Workbook 객체 생성 및 파일 오픈
 
@@ -106,6 +114,7 @@ public class Controller1
         ExcelApp.Workbooks.Close();
 
         ExcelApp.Quit();
+        Console.Clear();
     }
 
     //학점 계산 메서드
@@ -397,6 +406,7 @@ public class Controller1
     }
     */
 
+    //날짜,시간 전부 규칙적인 숫자로 바꿔주기 
     public static List<double> GetTime(MainData mainData)
 
     {
@@ -498,32 +508,32 @@ public class Controller1
                         dayAndTime.Add(4);
                     }
 
-                    string[] timeSplit2 = timeSplit1[2].Split('~');
-                    string[] timeSplit3 = timeSplit2[0].Split(':');
-                    string[] timeSplit4 = timeSplit2[1].Split(':');
+                    string[] timeSplit2_4 = timeSplit1[2].Split('~');
+                    string[] timeSplit3_4 = timeSplit2_4[0].Split(':');
+                    string[] timeSplit4_4 = timeSplit2_4[1].Split(':');
 
-                    for(int j = 1; j < timeSplit3.Length; j++)
+                    for(int j = 1; j < timeSplit3_4.Length; j++)
                     {
-                        if (timeSplit3[j] == "00")
+                        if (timeSplit3_4[j] == "00")
                         {
-                            timeSplit3[j] = "0";
+                            timeSplit3_4[j] = "0";
                         }
-                        else if (timeSplit3[j] == "30")
+                        else if (timeSplit3_4[j] == "30")
                         {
-                            timeSplit3[j] = "0.5";
+                            timeSplit3_4[j] = "0.5";
                         }
                         
-                        if (timeSplit4[j] == "00")
+                        if (timeSplit4_4[j] == "00")
                         {
-                            timeSplit4[j] = "0";
+                            timeSplit4_4[j] = "0";
                         }
-                        else if (timeSplit4[j] == "30")
+                        else if (timeSplit4_4[j] == "30")
                         {
-                            timeSplit4[j] = "0.5";
+                            timeSplit4_4[j] = "0.5";
                         }
                     }
-                    double startTime = int.Parse(timeSplit3[0]) + double.Parse(timeSplit3[1]); // 앞(startTime) 더해주기 
-                    double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);   // 뒤(endTime) 더해주기 
+                    double startTime = int.Parse(timeSplit3_4[0]) + double.Parse(timeSplit3_4[1]); // 앞(startTime) 더해주기 
+                    double endTime = int.Parse(timeSplit4_4[0]) + double.Parse(timeSplit4_4[1]);   // 뒤(endTime) 더해주기 
                     dayAndTime.Add(startTime);
                     dayAndTime.Add(endTime);
                 }
@@ -536,16 +546,17 @@ public class Controller1
 
 
         // <월 수 09:00~10:30, 수 18:00~20:00>, <금 09:00~12:00, 금 13:00~15:00>
-        else if (timeSplit.Length == 2)
+        else if (timeSplit.Length == 2)  // ','를 기준으로 2가지로 나뉜경우
         {
-            string[] timeSplit1 = mainData.time.Split(' ');
-
-            // 화 18:00~19:00
-            if (timeSplit1.Length == 2)
+            string[] timeSplit1_1 = timeSplit[0].Split(' ');
+            string[] timeSplit1_2 = timeSplit[1].Split(' ');
+            bool check = true;
+            // < 금 09:00~12:00 / 금 13:00~15:00 >
+            if (timeSplit1_1.Length == 2 && check == true )
             {
-                for (int i = 0; i < timeSplit1.Length; i++)
+                for (int i = 0; i < timeSplit1_1.Length - 1; i++)
                 {
-                    switch (timeSplit1[i])
+                    switch (timeSplit1_1[i])
                     {
                         case "월":
                             dayAndTime.Add(0);
@@ -567,7 +578,7 @@ public class Controller1
                     }
 
 
-                    string[] timeSplit2 = timeSplit1[1].Split('~');
+                    string[] timeSplit2 = timeSplit1_1[1].Split('~');
                     string[] timeSplit3 = timeSplit2[0].Split(':');
                     string[] timeSplit4 = timeSplit2[1].Split(':');
 
@@ -597,25 +608,227 @@ public class Controller1
                     double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);
                     dayAndTime.Add(startTime);
                     dayAndTime.Add(endTime);
+                    check = false;
                 }
-            }
-            // 화 목 13:30~15:00
-            else if (timeSplit1.Length == 3)
-            {
 
+                // 한번 더 진핸 하지만  ',' 뒤의 시간표 더해주기
+               
+                for (int i = 1; i < timeSplit1_2.Length - 1; i++)
+                {
+                    switch (timeSplit1_2[i])
+                    {
+                        case "월":
+                            dayAndTime.Add(0);
+                            break;
+                        case "화":
+                            dayAndTime.Add(1);
+                            break;
+                        case "수":
+                            dayAndTime.Add(2);
+                            break;
+                        case "목":
+                            dayAndTime.Add(3);
+                            break;
+                        case "금":
+                            dayAndTime.Add(4);
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    string[] timeSplit2_2 = timeSplit1_2[2].Split('~');
+                    string[] timeSplit3_2 = timeSplit2_2[0].Split(':');
+                    string[] timeSplit4_2 = timeSplit2_2[1].Split(':');
+
+                    for (int j = 1; j < 2; j++)
+                    {
+                        if (timeSplit3_2[j] == "00")
+                        {
+                            timeSplit3_2[j] = "0";
+                        }
+                        else if (timeSplit3_2[j] == "30")
+                        {
+                            timeSplit3_2[j] = "0.5";
+                        }
+                        else { }
+
+                        if (timeSplit4_2[j] == "00")
+                        {
+                            timeSplit4_2[j] = "0";
+                        }
+                        else if (timeSplit4_2[j] == "30")
+                        {
+                            timeSplit4_2[j] = "0.5";
+                        }
+                        else { }
+                    }
+                    double startTime = int.Parse(timeSplit3_2[0]) + double.Parse(timeSplit3_2[1]);
+                    double endTime = int.Parse(timeSplit4_2[0]) + double.Parse(timeSplit4_2[1]);
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                }
+
+            }
+
+
+            // <월 수 09:00~10:30, 수 18:00~20:00>
+            else if (timeSplit1_1.Length == 3)
+            {
+                for (int i = 0; i < timeSplit1_1.Length - 1; i++)
+                {
+                    if (timeSplit1_1[i] == "월")  //case 사용 못함 2가지의 요일이 들어오기 때문에
+                    {
+                        dayAndTime.Add(0);
+                    }
+                    else if (timeSplit1_1[i] == "화")
+                    {
+                        dayAndTime.Add(1);
+                    }
+                    else if (timeSplit1_1[i] == "수")
+                    {
+                        dayAndTime.Add(2);
+                    }
+                    else if (timeSplit1_1[i] == "목")
+                    {
+                        dayAndTime.Add(3);
+                    }
+                    else if (timeSplit1_1[i] == "금")
+                    {
+                        dayAndTime.Add(4);
+                    }
+
+
+                    string[] timeSplit2_2 = timeSplit1_1[2].Split('~');
+                    string[] timeSplit3_2 = timeSplit2_2[0].Split(':');
+                    string[] timeSplit4_2 = timeSplit2_2[1].Split(':');
+
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (timeSplit3_2[j] == "00")
+                        {
+                            timeSplit3_2[j] = "0";
+                        }
+                        else if (timeSplit3_2[j] == "30")
+                        {
+                            timeSplit3_2[j] = "0.5";
+                        }
+                        else { }
+
+                        if (timeSplit4_2[j] == "00")
+                        {
+                            timeSplit4_2[j] = "0";
+                        }
+                        else if (timeSplit4_2[j] == "30")
+                        {
+                            timeSplit4_2[j] = "0.5";
+                        }
+                        else { }
+                    }
+                    double startTime = int.Parse(timeSplit3_2[0]) + double.Parse(timeSplit3_2[1]);
+                    double endTime = int.Parse(timeSplit4_2[0]) + double.Parse(timeSplit4_2[1]);
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                    check = false;
+                }
+
+                // 한번 더 진핸 하지만  ',' 뒤의 시간표 더해주기
+
+                for (int i = 1; i < timeSplit1_2.Length - 1; i++)
+                {
+                    switch (timeSplit1_2[i])
+                    {
+                        case "월":
+                            dayAndTime.Add(0);
+                            break;
+                        case "화":
+                            dayAndTime.Add(1);
+                            break;
+                        case "수":
+                            dayAndTime.Add(2);
+                            break;
+                        case "목":
+                            dayAndTime.Add(3);
+                            break;
+                        case "금":
+                            dayAndTime.Add(4);
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    string[] timeSplit2_2 = timeSplit1_2[2].Split('~');
+                    string[] timeSplit3_2 = timeSplit2_2[0].Split(':');
+                    string[] timeSplit4_2 = timeSplit2_2[1].Split(':');
+
+                    for (int j = 1; j < 2; j++)
+                    {
+                        if (timeSplit3_2[j] == "00")
+                        {
+                            timeSplit3_2[j] = "0";
+                        }
+                        else if (timeSplit3_2[j] == "30")
+                        {
+                            timeSplit3_2[j] = "0.5";
+                        }
+                        else { }
+
+                        if (timeSplit4_2[j] == "00")
+                        {
+                            timeSplit4_2[j] = "0";
+                        }
+                        else if (timeSplit4_2[j] == "30")
+                        {
+                            timeSplit4_2[j] = "0.5";
+                        }
+                        else { }
+                    }
+                    double startTime = int.Parse(timeSplit3_2[0]) + double.Parse(timeSplit3_2[1]);
+                    double endTime = int.Parse(timeSplit4_2[0]) + double.Parse(timeSplit4_2[1]);
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                }
             }
         }
 
         return dayAndTime;
     }
+    //실험용
     public static void TimeCheck()
     {
         Console.WriteLine(GetTime(allDataList1[2]));
         Console.WriteLine(GetTime(allDataList1[2]).Count);  // = 3
         Console.WriteLine(GetTime(allDataList1[24]));
-        Console.WriteLine(GetTime(allDataList1[24]).Count);  // = 3
+        Console.WriteLine(GetTime(allDataList1[24]).Count);  // = 6 
+        Console.WriteLine(GetTime(allDataList1[115]));
+        Console.WriteLine(GetTime(allDataList1[115]).Count); // = 6
+        Console.WriteLine(GetTime(allDataList1[116]));
+        Console.WriteLine(GetTime(allDataList1[116]).Count); // = 6
     }
 
+    public bool CheckTime(MainData mainData, MainData mainData1)
+    {
+        bool isOverlapped = false;
+        for (int i = 0; i < GetTime(mainData).Count; i += 3)
+        {
+            for (int j = 0; j < GetTime(mainData1).Count; j += 3)
+            {
+                if (GetTime(mainData)[i] == GetTime(mainData1)[j])
+                {
+                    // 겹치면 아웃 
+                    if ((GetTime(mainData)[i + 2] > GetTime(mainData1)[j + 1]) && (GetTime(mainData)[i + 1] < GetTime(mainData1)[j + 2]))
+                    {
+                        isOverlapped = true;
+                    }
+                    else { }
+                }
+                else { }
+            }
+        }
+
+        return isOverlapped;
+    }
     /*강의 검색 메서드
     public void ClassSerch(String a)
     {
