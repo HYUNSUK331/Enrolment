@@ -35,7 +35,7 @@ public class Controller1
     {
 
         Excel.Application ExcelApp = new Excel.Application();
-        
+
         // Workbook 객체 생성 및 파일 오픈
 
         Excel.Workbook workbook =// ExcelApp.Workbooks.Open(Environment.GetFolderPath(AppDomain.CurrentDomain.BaseDirectory) + "excelStudy.xlsx");
@@ -105,7 +105,7 @@ public class Controller1
 
         ExcelApp.Workbooks.Close();
 
-            ExcelApp.Quit();
+        ExcelApp.Quit();
     }
 
     //학점 계산 메서드
@@ -132,7 +132,7 @@ public class Controller1
     // 검색한 과목들이 담길 메서드
     public void InPutData(List<MainData> mainDatas)
     {
-        for (int i = 0; i < mainDatas.Count; i++) 
+        for (int i = 0; i < mainDatas.Count; i++)
         {
             Console.Write(" ");
             Console.Write(mainDatas[i].no);
@@ -172,7 +172,7 @@ public class Controller1
         Console.Clear();
     }
 
-    // 수간 조회 후 신청하기 위한 메서드
+    // 수강 조회 후 신청하기 위한 메서드
     public void EnrollmentList(bool isDone, List<MainData> searchedList)
     {
 
@@ -201,7 +201,7 @@ public class Controller1
                         break;
                     }
                     else
-                        for(int j = 0; j < subDataList1.Count; j++)
+                        for (int j = 0; j < subDataList1.Count; j++)
                         {   //학수 번호, 시간이 같은 경우 false로 바꿔주기
                             if (searchedList[i].number == subDataList1[j].number)
                             {
@@ -230,7 +230,7 @@ public class Controller1
             break;
         }
     }
-    // 수간 조회 후 관심항목에 넣기
+    // 수강 조회 후 관심항목에 넣기
     public void InterestList(bool isDone, List<MainData> searchedList)
     {
 
@@ -319,38 +319,45 @@ public class Controller1
         }
     }
 
+    /*실패작
     public static List<double> GetTime(MainData mainData)
     {
         char[] deleteWord = { ' ', '~', ':', ',' };
 
-        List<double> dayAndTime = new List<double>();
+        List<double> dayTime = new List<double>();
 
-        string[] timeSplit = mainData.time.Split(deleteWord);
+        string[] timeSplit = mainData.time.Split(',');
+        string[] timeSplit1 = timeSplit[0].Split(' ');
         
+        if (timeSplit.Length == 2)
+        {
+            string[] timeSplit2 = timeSplit[1].Split(' ');
+        }
+
         for (int i = 0; i < timeSplit.Length; i++)
         {
             switch (timeSplit[i])
             {
                 case "월":
-                    dayAndTime.Add(1);
+                    dayTime.Add(1);
                     break;
                 case "화":
-                    dayAndTime.Add(2);
+                    dayTime.Add(2);
                     break;
                 case "수":
-                    dayAndTime.Add(3);
+                    dayTime.Add(3);
                     break;
                 case "목":
-                    dayAndTime.Add(4);
+                    dayTime.Add(4);
                     break;
                 case "금":
-                    dayAndTime.Add(5);
+                    dayTime.Add(5);
                     break;
                 default:
                     break;
-            }
 
-            /*
+            }
+            
             i++;
             string[] timeSplit2 = timeSplit1[i].Split('~');
             string[] timeSplit3 = timeSplit2[0].Split(':');
@@ -382,17 +389,231 @@ public class Controller1
             double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);
             dayAndTime.Add(startTime);
             dayAndTime.Add(endTime);
-            */
+            
+        }
+
+        return dayTime;
+
+    }
+    */
+
+    public static List<double> GetTime(MainData mainData)
+
+    {
+        List<double> dayAndTime = new List<double>();
+
+        string[] timeSplit = mainData.time.Split(',');
+
+
+        // <화 18:00~19:00>, <화 목 13:30~15:00> timeSplit으로 나누면 둘중 하나만 들어온다.
+        if (timeSplit.Length == 1)
+        {
+
+            string[] timeSplit1 = timeSplit[0].Split(' '); // ',' 가 없으면 [0]은 <화 18:00~19:00> 전체
+
+            // 화 18:00~19:00   길이가 2인 경우는 하나
+            // 출력 값 1, 13.5, 15.0
+            if (timeSplit1.Length == 2)
+            {
+                for (int i = 0; i < timeSplit1.Length - 1; i++)
+                {
+                    switch (timeSplit1[i])
+                    {
+                        case "월":
+                            dayAndTime.Add(0);
+                            break;
+                        case "화":
+                            dayAndTime.Add(1);
+                            break;
+                        case "수":
+                            dayAndTime.Add(2);
+                            break;
+                        case "목":
+                            dayAndTime.Add(3);
+                            break;
+                        case "금":
+                            dayAndTime.Add(4);
+                            break;
+                        default:
+                            break;
+                    }
+                    string[] timeSplit2 = timeSplit1[1].Split('~'); // 요일을 뺀 시간에서 ~를 기주능로 나누기
+                    string[] timeSplit3 = timeSplit2[0].Split(':'); // 앞쪽 (startTime)를 나누기
+                    string[] timeSplit4 = timeSplit2[1].Split(':'); // 뒷쪽 (endTime)를 나누기
+
+                    for (int j = 1; j < timeSplit3.Length; j++)
+                    {
+                        if (timeSplit3[j] == "00") // 앞 double형태로 만들기
+                        {
+                            timeSplit3[j] = "0";
+                        }
+                        else if (timeSplit3[j] == "30")
+                        {
+                            timeSplit3[j] = "0.5";
+                        }
+                        else { }
+
+                        if (timeSplit4[j] == "00") // 뒤 double형태로 만들기
+                        {
+                            timeSplit4[j] = "0";
+                        }
+                        else if (timeSplit4[j] == "30")
+                        {
+                            timeSplit4[j] = "0.5";
+                        }
+                        else { }
+                    }
+                    double startTime = int.Parse(timeSplit3[0]) + double.Parse(timeSplit3[1]); // 앞(startTime) 더해주기 
+                    double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);   // 뒤(endTime) 더해주기 
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                }
+            }
+
+            // 화 목 13:30~15:00
+            // 출력 값 1, 13.5, 15.0, 3, 13.5, 15.0
+            else if (timeSplit1.Length == 3)
+            {
+
+                for (int i = 0; i < timeSplit1.Length - 1; i++)
+                {
+                    if (timeSplit1[i] == "월")  //case 사용 못함 2가지의 요일이 들어오기 때문에
+                    {
+                        dayAndTime.Add(0);
+                    }
+                    else if (timeSplit1[i] == "화")
+                    {
+                        dayAndTime.Add(1);
+                    }
+                    else if (timeSplit1[i] == "수")
+                    {
+                        dayAndTime.Add(2);
+                    }
+                    else if (timeSplit1[i] == "목")
+                    {
+                        dayAndTime.Add(3);
+                    }
+                    else if (timeSplit1[i] == "금")
+                    {
+                        dayAndTime.Add(4);
+                    }
+
+                    string[] timeSplit2 = timeSplit1[2].Split('~');
+                    string[] timeSplit3 = timeSplit2[0].Split(':');
+                    string[] timeSplit4 = timeSplit2[1].Split(':');
+
+                    for(int j = 1; j < timeSplit3.Length; j++)
+                    {
+                        if (timeSplit3[j] == "00")
+                        {
+                            timeSplit3[j] = "0";
+                        }
+                        else if (timeSplit3[j] == "30")
+                        {
+                            timeSplit3[j] = "0.5";
+                        }
+                        
+                        if (timeSplit4[j] == "00")
+                        {
+                            timeSplit4[j] = "0";
+                        }
+                        else if (timeSplit4[j] == "30")
+                        {
+                            timeSplit4[j] = "0.5";
+                        }
+                    }
+                    double startTime = int.Parse(timeSplit3[0]) + double.Parse(timeSplit3[1]); // 앞(startTime) 더해주기 
+                    double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);   // 뒤(endTime) 더해주기 
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                }
+
+            }
+        }
+
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+        // <월 수 09:00~10:30, 수 18:00~20:00>, <금 09:00~12:00, 금 13:00~15:00>
+        else if (timeSplit.Length == 2)
+        {
+            string[] timeSplit1 = mainData.time.Split(' ');
+
+            // 화 18:00~19:00
+            if (timeSplit1.Length == 2)
+            {
+                for (int i = 0; i < timeSplit1.Length; i++)
+                {
+                    switch (timeSplit1[i])
+                    {
+                        case "월":
+                            dayAndTime.Add(0);
+                            break;
+                        case "화":
+                            dayAndTime.Add(1);
+                            break;
+                        case "수":
+                            dayAndTime.Add(2);
+                            break;
+                        case "목":
+                            dayAndTime.Add(3);
+                            break;
+                        case "금":
+                            dayAndTime.Add(4);
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    string[] timeSplit2 = timeSplit1[1].Split('~');
+                    string[] timeSplit3 = timeSplit2[0].Split(':');
+                    string[] timeSplit4 = timeSplit2[1].Split(':');
+
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (timeSplit3[j] == "00")
+                        {
+                            timeSplit3[j] = "0";
+                        }
+                        else if (timeSplit3[j] == "30")
+                        {
+                            timeSplit3[j] = "0.5";
+                        }
+                        else { }
+
+                        if (timeSplit4[j] == "00")
+                        {
+                            timeSplit4[j] = "0";
+                        }
+                        else if (timeSplit4[j] == "30")
+                        {
+                            timeSplit4[j] = "0.5";
+                        }
+                        else { }
+                    }
+                    double startTime = int.Parse(timeSplit3[0]) + double.Parse(timeSplit3[1]);
+                    double endTime = int.Parse(timeSplit4[0]) + double.Parse(timeSplit4[1]);
+                    dayAndTime.Add(startTime);
+                    dayAndTime.Add(endTime);
+                }
+            }
+            // 화 목 13:30~15:00
+            else if (timeSplit1.Length == 3)
+            {
+
+            }
         }
 
         return dayAndTime;
     }
-
     public static void TimeCheck()
     {
-        for(int i = 0; i < allView.Count; i++) {
-            Console.WriteLine(GetTime(allView[i])) ;
-        }
+        Console.WriteLine(GetTime(allDataList1[2]));
+        Console.WriteLine(GetTime(allDataList1[2]).Count);  // = 3
+        Console.WriteLine(GetTime(allDataList1[24]));
+        Console.WriteLine(GetTime(allDataList1[24]).Count);  // = 3
     }
 
     /*강의 검색 메서드

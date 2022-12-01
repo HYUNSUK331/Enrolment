@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Enrolment.View.MyTimeTable
 {
-    public class MyTimeTable
+    public class MyTimeTable: Controller1
     {
+        
         private static string[,] arr = new string[25, 6];
+
         public static void myTimeTable()
         {
+            MainPage page = new MainPage();
+            int column = 0;
+            int row = 0;
+
             Console.WriteLine("      |      월       |       화       |       수       |       목       |       금       |");
             Console.WriteLine("08:00 |-----------------------------------------------------------------------------------|");
             Console.WriteLine("      |     {0}              {1}              {2}              {3}              {4}        ", arr[1, 1], arr[1, 2], arr[1, 3], arr[1, 4], arr[1, 5]);
@@ -85,7 +91,159 @@ namespace Enrolment.View.MyTimeTable
             Console.WriteLine("      |     {0}              {1}              {2}              {3}              {4}        ", arr[24, 1], arr[24, 2], arr[24, 3], arr[24, 4], arr[24, 5]);
             Console.WriteLine("");
 
-            Console.ReadLine();
+            for (int i = 0; i < allDataList1.Count; i++)
+            {
+                for (int j = 0; j < GetTime(allDataList1[i]).Count; j++)
+                {
+                    switch (GetTime(allDataList1[i])[j])
+                    {
+                        case 0:
+                            column = 20;
+                            break;
+                        case 1:
+                            column = 50;
+                            break;
+                        case 2:
+                            column = 80;
+                            break;
+                        case 3:
+                            column = 110;
+                            break;
+                        case 4:
+                            column = 140;
+                            break;
+                    }
+
+                    double startTime = GetTime(allDataList1[i])[j + 1];
+                    double endTime = GetTime(allDataList1[i])[j + 2];
+
+                    while (startTime != endTime)
+                    {
+                        switch (startTime)
+                        {
+                            case 9:
+                                row = 11;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 9.5:
+                                row = 13;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 10:
+                                row = 15;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 10.5:
+                                row = 17;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 11:
+                                row = 19;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 11.5:
+                                row = 21;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 12:
+                                row = 23;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 12.5:
+                                row = 25;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 13:
+                                row = 27;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 13.5:
+                                row = 29;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 14:
+                                row = 31;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 14.5:
+                                row = 33;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 15:
+                                row = 35;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 15.5:
+                                row = 37;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 16:
+                                row = 39;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 16.5:
+                                row = 41;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 17:
+                                row = 43;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 17.5:
+                                row = 45;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 18:
+                                row = 47;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 18.5:
+                                row = 49;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 19:
+                                row = 51;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            case 19.5:
+                                row = 53;
+                                Console.SetCursorPosition(column, row);
+                                Console.WriteLine(allDataList1[i].name);
+                                break;
+                            default:
+                                break;
+                        }
+                        startTime += 0.5;
+                    }
+
+                }
+            }
+            Console.SetCursorPosition(0, 55);
+            Console.WriteLine("뒤로 돌아가려면 ESC를 누르세요.");
+            while (Console.ReadKey().Key != ConsoleKey.Escape) { }
+            page.mainPage();
+
         }
     }
 }
