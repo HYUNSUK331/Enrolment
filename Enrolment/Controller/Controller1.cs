@@ -221,6 +221,15 @@ public class Controller1
                                 isHaveproblem = false;
                                 break;
                             }
+                            else if (CheckTime(searchedList[i], subDataList1[j]))
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("기존 신청 과목과 시간이 겹칩니다. 다시 입력해보세요. ");
+                                Console.ReadLine();
+                                Console.Clear();
+                                isHaveproblem = false;
+                                break;
+                            }
                         }
                     if (isHaveproblem == true)
                     {
@@ -794,6 +803,7 @@ public class Controller1
 
         return dayAndTime;
     }
+
     //실험용
     public static void TimeCheck()
     {
@@ -807,6 +817,7 @@ public class Controller1
         Console.WriteLine(GetTime(allDataList1[116]).Count); // = 6
     }
 
+    // 시간 중복 체크하는 메서드
     public bool CheckTime(MainData mainData, MainData mainData1)
     {
         bool isOverlapped = false;
